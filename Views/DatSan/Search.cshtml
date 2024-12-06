@@ -1,0 +1,142 @@
+﻿@using DatSan.Models;
+@using PagedList.Mvc;
+@model PagedList.PagedList<DatSan.Models.SanCauLong>
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<style>
+    /* Định dạng chung */
+    .search-results {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .col-sm-4 {
+        flex: 1 1 calc(33.333% - 20px); /* Chia thành 3 cột, khoảng cách 20px */
+        max-width: calc(33.333% - 20px);
+        box-sizing: border-box;
+    }
+
+    /* Định dạng thẻ thumbnail */
+    .thumbnail {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-align: center;
+    }
+
+        .thumbnail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Định dạng hình ảnh */
+        .thumbnail img {
+            border-bottom: 1px solid #ddd;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Định dạng nội dung bên trong thumbnail */
+        .thumbnail h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .thumbnail p {
+            font-size: 14px;
+            color: #777;
+            margin: 5px 0 15px;
+        }
+
+        /* Định dạng nút "Đặt sân ngay" */
+        .thumbnail .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 4px;
+            text-align: center;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+            .thumbnail .btn:hover {
+                background-color: #0056b3;
+            }
+    .table {
+        margin: 20px 0;
+    }
+
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+    .MenuTrang li {
+        display: inline;
+        margin-right: 10px;
+    }
+
+    .MenuTrang a {
+        text-decoration: none;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+
+        .MenuTrang a:hover {
+            background-color: #e6e6e6;
+        }
+</style>
+@section timSection {
+
+    <h2>Kết quả tìm kiếm</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <ul class="search-results">
+            @foreach (var san in Model)
+            {
+                <div class="col-sm-4">
+                    <div class="thumbnail">
+                        <a href="@Url.Action("DatSan", "DatSan", new { id = san.SanID })">
+                            <img src="@Url.Content("~/Images/SanCauLong/" + san.HinhAnh)" alt="@san.TenSan" style="width:100%; height:200px; object-fit:cover;">
+                        </a>
+                        <div>
+                            <h4>@san.TenSan</h4>
+                            <p>@san.DiaChi</p>
+                            <a href="@Url.Action("DatSan", "DatSan", new { id = san.SanID })" class="btn btn-primary">Đặt sân ngay</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>@ViewBag.Message</p>
+    }
+    <div class="MenuTrang" style="margin-top: 20px; font-size: 1.2em;">
+        @Html.PagedListPager(Model, page => Url.Action("Search", new { page = page }))
+    </div>
+}
+
+

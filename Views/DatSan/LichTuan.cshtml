@@ -1,0 +1,111 @@
+﻿@model Tuple<List<DatSan.Models.ChiTietSan>, List<DatSan.Models.LichSan>>
+
+@{
+    var danhSachChiTietSan = Model.Item1;
+    var lichTuan = Model.Item2;
+    var giaMoiGio = danhSachChiTietSan.FirstOrDefault()?.GiaMoiGio ?? 0;
+    var startDate = ViewBag.StartDate ?? DateTime.Now;
+    var startOfWeek = startDate.AddDays(-(int)startDate.DayOfWeek); // Tính ngày đầu tuần
+    ViewBag.StartDate = startOfWeek;
+    ViewBag.EndDate = startOfWeek.AddDays(6); // Ngày cuối tuần
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2 class="text-center">Lịch Tuần</h2>
+
+<div class="text-center mb-3">
+    <!-- Chuyển đến tuần trước -->
+    <a href="@Url.Action("LichTuan", "DatSan", new { sanID = ViewBag.SanID, startDate = ViewBag.StartDate.AddDays(-7) })" class="btn btn-secondary">Tuần trước</a>
+
+    <!-- Hiển thị ngày tuần hiện tại -->
+    <span class="mx-3">Từ @ViewBag.StartDate.ToString("dd/MM/yyyy") đến @ViewBag.StartDate.AddDays(6).ToString("dd/MM/yyyy")</span>
+
+    <!-- Chuyển đến tuần sau -->
+    <a href="@Url.Action("LichTuan", "DatSan", new { sanID = ViewBag.SanID, startDate = ViewBag.StartDate.AddDays(7) })" class="btn btn-secondary">Tuần sau</a>
+</div>
+
+<form method="post" action="@Url.Action("LichTuanPost", "DatSan")">
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Sân</th>
+                @for (var i = 0; i < 7; i++)
+                {
+                    <th>@startOfWeek.AddDays(i).ToString("dddd dd/MM")</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chiTietSan in danhSachChiTietSan)
+            {
+                <tr>
+                    <td>Sân @chiTietSan.SanSo</td>
+                    @for (var i = 0; i < 7; i++)
+                    {
+                        var ngay = startOfWeek.AddDays(i);
+                        <td>
+                            @for (var h = 5; h <= 22; h++)
+                            {
+                                var gioBatDau = new TimeSpan(h, 0, 0);
+                                var gioKetThuc = gioBatDau.Add(new TimeSpan(1, 0, 0));
+                                var lichTrongKhungGio = lichTuan.FirstOrDefault(l => l.SanID == chiTietSan.SanID && l.Ngay.Date == ngay.Date && l.ThoiGianBatDau == gioBatDau);
+
+                                if (lichTrongKhungGio != null)
+                                {
+                                    <div class="bg-danger text-white mb-1">
+                                        @gioBatDau.ToString(@"hh\:mm") - @gioKetThuc.ToString(@"hh\:mm"): Đã đặt
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="bg-success text-white mb-1">
+                                        <input type="checkbox" name="thoiGianChon" value="@ngay.ToString("yyyy-MM-dd")-@gioBatDau.ToString(@"hh\:mm")-@gioKetThuc.ToString(@"hh\:mm")"
+                                               data-gia="@chiTietSan.GiaMoiGio" class="chon-gio" />
+                                        @gioBatDau.ToString(@"hh\:mm") - @gioKetThuc.ToString(@"hh\:mm")<br />
+                                        @chiTietSan.GiaMoiGio đ
+                                    </div>
+                                }
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Thêm ô nhập thông tin khách hàng -->
+    <div class="mt-3">
+        <h4>Thông tin người đặt</h4>
+        <div class="form-group">
+            <label for="hoTen">Họ tên:</label>
+            <input type="text" name="hoTen" id="hoTen" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="soDienThoai">Số điện thoại:</label>
+            <input type="text" name="soDienThoai" id="soDienThoai" class="form-control" required />
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <h4>Tổng Kết</h4>
+        <p>Tổng Thời Gian: <span id="tongThoiGian">0</span> giờ</p>
+        <p>Tổng Tiền: <span id="tongTien">0</span> đ</p>
+        <button type="submit" class="btn btn-primary">Xác Nhận Đặt Sân</button>
+    </div>
+</form>
+
+<script>
+    document.querySelectorAll('.chon-gio').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            let tongThoiGian = 0;
+            let tongTien = 0;
+            document.querySelectorAll('.chon-gio:checked').forEach(cb => {
+                const gia = parseFloat(cb.getAttribute('data-gia'));
+                tongThoiGian += 1;
+                tongTien += gia;
+            });
+            document.getElementById('tongThoiGian').innerText = tongThoiGian;
+            document.getElementById('tongTien').innerText = tongTien.toLocaleString();
+        });
+    });
+</script>

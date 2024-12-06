@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Court Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container my-4">
+    <h2 class="mb-4 text-center">Chi Tiết Sân</h2>
+    <p class="lead">Thông tin chi tiết về sân với ID: <strong>@ViewBag.SanID</strong></p>
+
+    <!-- Form để thêm chi tiết sân -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            Thêm Chi Tiết Sân Mới
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("AddCourtDetail", "Admin", FormMethod.Post))
+            {
+                @Html.Hidden("sanId", (int)ViewData["SanID"])
+                <div class="form-group">
+                    <label for="SanSo">Sân:</label>
+                    <textarea name="SanSo" class="form-control" rows="3" placeholder="Nhập Sân (tuỳ chọn)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="GiaMoiGio">Giá Mỗi Giờ:</label>
+                    <input type="text" name="GiaMoiGio" class="form-control" placeholder="Nhập giá mỗi giờ" required />
+                    @if (ViewData["Loi1"] != null)
+                    {
+                        <span class="text-danger">@ViewData["Loi1"]</span>
+                    }
+                </div>
+
+
+                <button type="submit" class="btn btn-success mt-2">Thêm Chi Tiết</button>
+            }
+        </div>
+    </div>
+
+    <!-- Bảng hiển thị chi tiết sân hiện có -->
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Chi Tiết Sân ID</th>
+                <th>ID Sân</th>
+                <th>Sân</th>
+                <th>Giá Mỗi Giờ</th>
+                <th>Mô Tả Chi Tiết</th>
+                <th class="text-center">Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var detail in Model)
+                {
+                    <tr>
+                        <td>@detail.ChiTietSanID</td>
+                        <td>@detail.SanSo</td>
+                        <td>@detail.SanID</td>
+                        <td>@String.Format("{0:C}", detail.GiaMoiGio)</td>
+                        <td>@detail.MoTaChiTiet</td>
+                        <td class="text-center">
+                            <a href="@Url.Action("DeleteCourtDetail", new { id = detail.ChiTietSanID })" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa chi tiết này?');">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted">Không có chi tiết nào cho sân này.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

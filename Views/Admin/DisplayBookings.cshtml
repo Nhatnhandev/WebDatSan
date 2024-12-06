@@ -1,0 +1,35 @@
+﻿@model IEnumerable<DatSan.Models.DonDat>
+@{
+    ViewBag.Title = "DisplayBookings";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@section SanCauLong1{
+<h2>Quản lý đơn đặt sân</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã đơn</th>
+            <th>Tài khoản</th>
+            <th>Ngày đặt</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.DonDatID</td>
+                <td>@booking.TaiKhoan.TenDangNhap</td>
+                <td>@booking.NgayDat</td>
+                <td>
+                    <a href="#">Chi tiết</a> |
+                    <a href="#">Hủy</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<DatSan.Models.LichSan>
+@{
+    ViewBag.Title = "Lichsan";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section SanCauLong4{
+<h2>Quản lý lịch sân</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã sân</th>
+            <th>Ngày</th>
+            <th>Thời gian bắt đầu</th>
+            <th>Thời gian kết thúc</th>
+            <th>Số chỗ trống</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schedule in Model)
+        {
+            <tr>
+                <td>@schedule.SanID</td>
+                <td>@schedule.Ngay.ToString("dd/MM/yyyy")</td>
+                <td>@schedule.ThoiGianBatDau</td>
+                <td>@schedule.ThoiGianKetThuc</td>
+                <td>@schedule.SoChoTrong</td>
+                <td>
+                    <a href="#">Chỉnh sửa</a> |
+                    <a href="#">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}

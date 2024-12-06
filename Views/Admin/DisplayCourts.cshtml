@@ -1,0 +1,81 @@
+﻿@using DatSan.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<DatSan.Models.SanCauLong>
+@{
+    ViewBag.Title = "DisplayCourts";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section SanCauLong2{
+
+    <h2>Quản lý sân cầu</h2>
+    <a href="~/Admin/AddCourt">Thêm sân cầu mới</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tên sân</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Giá tiền trung bình 1h</th>
+                <th>Mô tả</th>
+                <th>Hình ảnh</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var court in Model)
+            {
+                <tr>
+                    <td>@court.TenSan</td>
+                    <td>@court.DiaChi</td>
+                    <td>@court.SoDienThoai</td>
+                    <td>@court.GiaTrungBinhMoiGio</td>
+                    <td>@court.Mota</td>
+                    <td>
+                        <img src="@Url.Content("~/Images/SanCauLong/" + court.HinhAnh)" alt="Hình ảnh sân cầu" style="width:100px; height:auto;" />
+                    </td>
+                    <td>
+                        <a href="@Url.Action("CourtDetails", "Admin", new { sanId = court.SanID })">Xem Chi Tiết</a>
+                        <a href="#">Chỉnh sửa</a> |
+                        <a href="@Url.Action("DeleteCourt", "Admin", new { id = court.SanID })" onclick="return confirm('Bạn có chắc chắn muốn xóa lịch sân này không?');">Xóa</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    <div class="MenuTrang" style="margin-top: 20px; font-size: 1.2em;">
+        @Html.PagedListPager(Model, page => Url.Action("DisplayCourts", new { page = page }))
+    </div>
+
+    <style>
+        .table {
+            margin: 20px 0;
+        }
+
+            .table th, .table td {
+                padding: 15px;
+                text-align: left;
+                border: 1px solid #ccc;
+            }
+
+        .MenuTrang li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        .MenuTrang a {
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+            .MenuTrang a:hover {
+                background-color: #e6e6e6;
+            }
+    </style>
+
+}
+

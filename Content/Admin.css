@@ -1,0 +1,53 @@
+﻿body {
+    font-family: 'Times New Roman', Times, serif; /* Áp dụng font cho toàn bộ trang */
+}
+
+.nav {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-right: 2px solid #ddd;
+}
+
+.nav-link {
+    padding: 15px; /* Tăng khoảng cách giữa văn bản và biên */
+    color: #333;
+    font-weight: 500; /* Tạo nét dày hơn cho văn bản */
+    padding: 10px; /* Tăng khoảng cách giữa văn bản và biên */
+    text-decoration: none; /* Bỏ gạch chân */
+}
+
+    .nav-link:hover {
+        background-color: #e9ecef;
+        color: #000;
+        transition: background-color 0.3s ease-in-out; /* Hiệu ứng chuyển đổi mượt */
+    }
+
+.nav-item {
+    margin-bottom: 20px; /* Tăng khoảng cách giữa các mục */
+    transition: all 0.2s ease-in-out; /* Thêm hiệu ứng khi di chuột */
+}
+
+    .nav-item:hover {
+        transform: translateX(5px); /* Di chuyển mục khi di chuột */
+    }
+
+section {
+    width: 100%; /* Đặt chiều rộng tối đa cho phần chính */
+    padding: 20px; /* Tạo khoảng cách hợp lý cho nội dung */
+    display: flex;
+    flex-direction: column; /* Hiển thị phần tử theo chiều dọc */
+    align-items: flex-start; /* Căn trái nội dung */
+}
+
+    section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    section form {
+        width: 100%; /* Cho form hiển thị toàn bộ chiều rộng của section */
+        max-width: 800px; /* Giới hạn chiều rộng của form */
+        padding: 20px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+    }

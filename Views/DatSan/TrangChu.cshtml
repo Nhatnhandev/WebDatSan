@@ -1,0 +1,130 @@
+﻿@model List<DatSan.Models.SanCauLong>
+@{
+    ViewBag.Title = "TrangChu";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<style>
+    /* CSS đã được giữ nguyên */
+    .banner {
+        background: linear-gradient(90deg, #00c6ff, #0072ff);
+        color: white;
+        text-align: center;
+        padding: 50px 20px;
+    }
+
+    .banner-content h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+
+    .banner-content p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+    .search-bar {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .search-bar input,
+        .search-bar select {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        .search-bar select {
+            width: 150px;
+        }
+
+    .btn-search {
+        padding: 10px 20px;
+        border: none;
+        background-color: #ffcc00;
+        color: black;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+        .btn-search:hover {
+            background-color: #ffa500;
+        }
+
+    .san-list {
+        margin-top: 30px;
+    }
+
+        .san-list .thumbnail {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .san-list .thumbnail h4 {
+                margin: 10px 0;
+            }
+
+        .san-list .btn-primary {
+            background-color: #0072ff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+            .san-list .btn-primary:hover {
+                background-color: #0056b3;
+            }
+</style>
+
+<header class="banner">
+    <div class="banner-content">
+        <h1>HỆ THỐNG HỖ TRỢ TÌM KIẾM SÂN BÃI NHANH</h1>
+        <p>Dữ liệu được cập nhật thường xuyên giúp người dùng tìm được sân một cách nhanh nhất</p>
+        <div class="search-bar">
+            @using (Html.BeginForm("Search", "DatSan", FormMethod.Get))
+            {
+                <input type="text" name="query" placeholder="Nhập tên sân hoặc địa chỉ" value="" />
+                <select name="selectedPriceRange">
+                    <option value="">Giá mỗi giờ:</option>
+                    <option value="50-100">50k - 100k</option>
+                    <option value="100-200">100k - 200k</option>
+                    <option value="200-500">200k - 500k</option>
+                </select>
+                <button type="submit" class="btn-search">Tìm kiếm</button>
+            }
+        </div>
+    </div>
+</header>
+
+<!-- Danh sách sân -->
+<section class="san-list">
+    <h2 class="text-center">Danh sách sân nổi bật</h2>
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <div class="text-danger text-center">@ViewBag.Error</div>
+    }
+    <div class="row">
+        @foreach (var san in ViewBag.SanCauLongs)
+        {
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <a href="@Url.Action("DatSan", "DatSan", new { id = san.SanID })">
+                        <img src="@Url.Content("~/Images/SanCauLong/" + san.HinhAnh)" alt="@san.TenSan" style="width:100%; height:200px; object-fit:cover;">
+                    </a>
+                    <div>
+                        <h4>@san.TenSan</h4>
+                        <p>@san.DiaChi</p>
+                        <a href="@Url.Action("LichTuan", "DatSan", new { id = san.SanID })" class="btn btn-primary">Đặt sân ngay</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

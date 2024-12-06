@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Chi Tiết Thanh Toán";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+@model DatSan.Models.ChiTietDonDat
+
+<h2 class="t">Chi Tiết Thanh Toán</h2>
+
+<div class=" mb-3">
+    <p><strong>Tổng thời gian:</strong> @ViewBag.TongThoiGian giờ</p>
+    <p><strong>Tổng tiền:</strong> @ViewBag.TongTien Kvnđ</p>
+</div>
+
+<form method="post" style="" action="@Url.Action("ThanhToan", "DatSan")">
+    <div class="form-group">
+        <label for="hoTen">Họ và tên</label>
+        <input type="text" style="" class="form-control" id="hoTen" name="hoTen" required />
+    </div>
+    <div class="form-group">
+        <label for="soDienThoai">Số điện thoại</label>
+        <input type="text" style="" class="form-control" id="soDienThoai" name="soDienThoai" required />
+    </div>
+
+    <!-- Hidden fields to pass data from session -->
+    <input type="hidden" name="sanID" value="@Session["SanID"]" />
+    <input type="hidden" name="tongTien" value="@ViewBag.TongTien" />
+
+    <button type="submit" class="btn btn-primary">Xác Nhận Thanh Toán</button>
+</form>

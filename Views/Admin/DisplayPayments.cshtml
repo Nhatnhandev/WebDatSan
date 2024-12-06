@@ -1,0 +1,39 @@
+﻿
+@model IEnumerable<DatSan.Models.ThanhToan>
+
+@{
+    ViewBag.Title = "DisplayPayments";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section SanCauLong3{
+
+
+<h2>Quản lý thanh toán</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã thanh toán</th>
+            <th>Đơn đặt</th>
+            <th>Ngày thanh toán</th>
+            <th>Số tiền</th>
+            <th>Phương thức</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var payment in Model)
+        {
+            <tr>
+                <td>@payment.ThanhToanID</td>
+                <td>@payment.DonDatID</td>
+                <td>@payment.NgayThanhToan</td>
+                <td>@payment.SoTien</td>
+                <td>@payment.PhuongThucThanhToan</td>
+                <td>@payment.TrangThai</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+

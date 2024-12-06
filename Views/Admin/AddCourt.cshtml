@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "AddCourt";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section SanCauLong {
+    <h4 style="color:red;text-align:center">@ViewBag.Thongbao</h4>
+    <div style="display: flex; justify-content: center; margin-left: 60px; margin-right: 20px;">
+        <table style="width: 680px; border: 1px solid #ccc; padding: 20px;">
+            <tr>
+                <td colspan="2">
+                    <h1 style="text-align:center">THÊM SÂN </h1>
+                </td>
+            </tr>
+
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true)
+                <tr style="height:40px">
+                    <td> Mã Sân:</td>
+                    <td>@Html.TextBox("SanID", null, new { style = "width: 400px;" }) @ViewData["Loi1"]</td>
+                </tr>
+                <tr style="height:40px">
+                    <td> Tên Sân:</td>
+                    <td>@Html.TextBox("TenSan", null, new { style = "width: 400px;" }) @ViewData["Loi2"]</td>
+                </tr>
+                <tr style="height:40px">
+                    <td> Địa chỉ:</td>
+                    <td>@Html.TextBox("DiaChi", null, new { style = "width: 400px;" }) @ViewData["Loi3"]</td>
+                </tr>
+                <tr style="height:40px">
+                    <td> Số điện thoại:</td>
+                    <td>@Html.TextBox("SoDienThoai", null, new { style = "width: 400px;" }) @ViewData["Loi4"]</td>
+                </tr>
+                <tr style="height:40px">
+                    <td> Mô tả sân:</td>
+                    <td>@Html.TextArea("Mota", null, new { style = "width: 400px; height: 100px;" })</td>
+                </tr>
+                <tr style="height:40px">
+                    <td>Địa điểm:</td>
+                    <td>
+                        @Html.DropDownList("DiaDiem", (SelectList)ViewBag.DiaDiem, "Chọn địa điểm", new { @class = "form-control" })
+
+                    </td>
+                </tr>
+
+                <tr style="height:40px;">
+                    <td> Hình ảnh:</td>
+                    <td colspan="2" style="text-align: center;">
+                        <input type="file" name="HinhAnh" class="form-control" />
+                    </td>
+                </tr>
+                <tr style="height:40px;">
+                    <td colspan="2" style="text-align: center;">
+                        <input type="submit" value="Add" style="width: 120px; height: 40px; border: 2px solid black; border-radius: 5px;" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

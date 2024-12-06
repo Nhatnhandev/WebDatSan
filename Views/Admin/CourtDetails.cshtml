@@ -1,0 +1,44 @@
+﻿@model IEnumerable<DatSan.Models.ChiTietSan>
+@{
+    ViewBag.Title = "Chi Tiết Sân";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chi Tiết Sân: @ViewBag.SanTen</h2>
+<a href="@Url.Action("AddCourtDetail", "Admin", new { sanId = ViewBag.SanID })" class="btn btn-primary">Thêm Chi Tiết Mới</a>
+<a href="@Url.Action("DisplayCourts", "Admin")" class="btn btn-default">Quay Lại</a>
+
+@if (Model.Any())
+{
+    <table class="table table-striped table-bordered" style="margin-top:20px;">
+        <thead>
+            <tr>
+                <th>ID Sân chi tiết</th>
+                <th>Sân</th>
+                <th>Giá mỗi giờ (kVND)</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model)
+            {
+                <tr>
+                    <td>@detail.ChiTietSanID</td>
+                    <td>@detail.SanSo</td>
+                    <td>@detail.GiaMoiGio.ToString("N0") kVND</td>
+
+                    <td>
+                        <a href="@Url.Action("DeleteCourtDetail", "Admin", new { id = detail.ChiTietSanID })" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa chi tiết sân này không?');">Xóa</a>
+                        <!-- Bạn có thể thêm nút chỉnh sửa chi tiết sân nếu cần -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info" style="margin-top:20px;">
+        Không có chi tiết sân nào cho sân này.
+    </div>
+}

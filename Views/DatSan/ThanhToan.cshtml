@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Thanh Toán";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2 class="text-center">Thanh Toán</h2>
+
+<p><strong>Mã Đơn Đặt:</strong> @ViewBag.DonDatID</p>
+<p><strong>Tổng tiền:</strong> @ViewBag.TongTien.ToString("N0") đ</p>
+
+<form method="post" action="@Url.Action("ThanhToan", "DatSan")">
+    <input type="hidden" name="donDatID" value="@ViewBag.DonDatID" />
+    <div class="form-group">
+        <label>Phương Thức Thanh Toán:</label>
+        <select name="phuongThucThanhToan" class="form-control" required>
+            <option value="Tiền Mặt">Tiền Mặt</option>
+            <option value="Chuyển Khoản">Chuyển Khoản</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Thanh Toán</button>
+</form>
